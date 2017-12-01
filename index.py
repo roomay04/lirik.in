@@ -1,5 +1,6 @@
 from flask import Flask, request, abort
 from dotenv import load_dotenv, find_dotenv
+from wit import Wit
 import os
 
 from linebot import (
@@ -40,6 +41,9 @@ load_dotenv(find_dotenv())
 
 line_bot_api = LineBotApi(os.environ.get('CHANNEL_ACCESS_TOKEN'))
 handler = WebhookHandler(os.environ.get('CHANNEL_SECRET'))
+
+##WITAI BOT##
+client = Wit(os.environ.get('WIT_ACCESS_TOKEN'))
 
 @app.route('/callback', methods=['POST'])
 def callback():
@@ -108,38 +112,38 @@ def callback():
 ### METHOD product list ############
 ####################################
 
-def handle_message(event):
-	if (event.message.text == '/list'):
-		reply_message = TemplateSendMessage(
-			alt_text='List Produk',
-			template=ImageCarouselTemplate(
-			columns=[
-				ImageCarouselColumn(
-					image_url='https://via.placeholder.com/800x800', action=MessageTemplateAction(
-						label='Product 1',
-						text='/buy product1',
-					)
-				),
-				ImageCarouselColumn(
-				image_url='https://via.placeholder.com/800x800', action=MessageTemplateAction(
-					label='Product 2',
-					text='/buy product2',
-					)
-				)
-			]
-		)
-	)
-	elif (event.message.text == '/buy product1'):
-		reply_message = TextSendMessage(text='Product 1 added')
-	elif (event.message.text == '/buy product2'):
-		reply_message = TextSendMessage(text='Product 2 added')
-	else:
-		reply_message = TextSendMessage(text='Type /list for view our products')
+# def handle_message(event):
+# 	if (event.message.text == '/list'):
+# 		reply_message = TemplateSendMessage(
+# 			alt_text='List Produk',
+# 			template=ImageCarouselTemplate(
+# 			columns=[
+# 				ImageCarouselColumn(
+# 					image_url='https://via.placeholder.com/800x800', action=MessageTemplateAction(
+# 						label='Product 1',
+# 						text='/buy product1',
+# 					)
+# 				),
+# 				ImageCarouselColumn(
+# 				image_url='https://via.placeholder.com/800x800', action=MessageTemplateAction(
+# 					label='Product 2',
+# 					text='/buy product2',
+# 					)
+# 				)
+# 			]
+# 		)
+# 	)
+# 	elif (event.message.text == '/buy product1'):
+# 		reply_message = TextSendMessage(text='Product 1 added')
+# 	elif (event.message.text == '/buy product2'):
+# 		reply_message = TextSendMessage(text='Product 2 added')
+# 	else:
+# 		reply_message = TextSendMessage(text='Type /list for view our products')
 
-	line_bot_api.reply_message(
-	event.reply_token,
-	reply_message
-)
+# 	line_bot_api.reply_message(
+# 	event.reply_token,
+# 	reply_message
+# )
 
 ###################################################
 ### METHOD mengembalikan user profile #############
@@ -159,6 +163,25 @@ def handle_message(event):
 # 		)
 # 	)
 # )
+
+###################################################
+### METHOD implementasi WIT AI ####################
+###################################################
+
+def handle_message(event):
+	resp = client.message(event.message.text)
+	if (resp.get('entities').get('greeting', None) != None):
+		resp = resp.get('entities').get('greeting')[0]
+	if resp.get('value') == 'hi':
+		line_bot_api.reply_message(
+		event.reply_token,
+		TextSendMessage(text='Hai! Semoga harimu menyenangkan')
+	)
+	elif resp.get('value') == 'halo':
+		line_bot_api.reply_message(
+			event.reply_token,
+			TextSendMessage(text='Halo juga! Semangat buat hari ini :)')
+)
 
 
 if __name__ == "__main__":
