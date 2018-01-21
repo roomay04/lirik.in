@@ -9,6 +9,9 @@ from linebot import (
 from linebot.exceptions import (
     InvalidSignatureError
 )
+from linebot.models import (
+    MessageEvent, TextMessage, TextSendMessage,
+)
 
 from linebot.models import (
 	MessageEvent,
@@ -19,8 +22,17 @@ from linebot.models import (
 	PostbackTemplateAction,
 	MessageTemplateAction,
 	URITemplateAction
+)
+
+from linebot.models import (
+	MessageEvent,
+	TextMessage,
+	TextSendMessage,
+	TemplateSendMessage,
 	ImageCarouselTemplate,
+	MessageTemplateAction,
 	ImageCarouselColumn
+#17
 )
 
 app = Flask(__name__)
