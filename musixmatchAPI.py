@@ -20,6 +20,19 @@ by Hanifa Arrumaisha (25/01/2017)
 *   terakhir, tinggal gunain function ini di index.py yaaa tapi aku belum nyoba
 """
 
+def getLyricsWithArtist(artist):
+    URL = 'https://api.musixmatch.com/ws/1.1/track.search' 
+    PARAMS = {
+        'apikey': getAPIkey(),
+        'format':'json',
+        'callback':'callback',
+        'q_artist':artist
+    }
+
+    r = requests.get(url = URL, params=PARAMS)
+
+    data = r.json()
+    return data
 
 def getLyricsWithTrackArtist(track,artist):
     URL = 'https://api.musixmatch.com/ws/1.1/matcher.lyrics.get' 
