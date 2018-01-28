@@ -20,13 +20,34 @@ by Hanifa Arrumaisha (25/01/2017)
 *   terakhir, tinggal gunain function ini di index.py yaaa tapi aku belum nyoba
 """
 
+def getLyricsWithSubLyrics(lyrics):
+    URL = 'https://api.musixmatch.com/ws/1.1/track.search' 
+    PARAMS = {
+        'apikey' : getAPIkey(),
+        'format' : 'json',
+        'callback' : 'callback',
+        'f_has_lyrics' : 1, #filter pencarian, nanti yg muncul cuma yg ada lyric nya
+        'q_lyrics' : lyrics,
+        's_track_rating' : 'desc', #rating track nya terurut dari yg paling tinggi ke rendah
+        'page_size' : 100 # muncul 100 lyric yg ada sub lyric itu
+    }
+
+    r = requests.get(url = URL, params=PARAMS)
+
+    data = r.json()
+    return data
+
+
 def getLyricsWithTrack(track):
     URL = 'https://api.musixmatch.com/ws/1.1/track.search' 
     PARAMS = {
-        'apikey': getAPIkey(),
-        'format':'json',
-        'callback':'callback',
-        'q_track':track
+        'apikey' : getAPIkey(),
+        'format' : 'json',
+        'callback' : 'callback',
+        'f_has_lyrics' : 1,
+        'q_track' : track,
+        's_track_rating' : 'desc',
+        'page_size' : 100 
     }
 
     r = requests.get(url = URL, params=PARAMS)
