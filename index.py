@@ -26,8 +26,8 @@ from linebot.models import (
 app = Flask(__name__)
 load_dotenv(find_dotenv())
 
-line_bot_api = LineBotApi(os.environ.get('CHANNEL_ACCESS_TOKEN'))
-handler = WebhookHandler(os.environ.get('CHANNEL_SECRET'))
+line_bot_api = LineBotApi("5e0dda32b525e3ef4635527e8bcbb22b")
+handler = WebhookHandler("o49KpdskytycXn9OJ46+/r+4CIBn7mL2A3GUfbPyKjJ9JNksZOfmNuj9onBw2SoAthuZHLkVDKXR+zkN8L/b/+VzJyiCSI9pL3ayk4DLLeJrAlvmXO2QWPTZnFPSBIAKKDpzuuMoOoRRDNWHTiPg8QdB04t89/1O/w1cDnyilFU=")
 
 ##WITAI BOT##
 client = Wit(os.environ.get('WIT_ACCESS_TOKEN'))
