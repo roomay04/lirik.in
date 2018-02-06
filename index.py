@@ -2,6 +2,7 @@ from flask import Flask, request, abort
 from dotenv import load_dotenv, find_dotenv
 from wit import Wit
 import os
+import musixmatchAPI as lirik_api
 
 from linebot import (
     LineBotApi, WebhookHandler
@@ -96,26 +97,40 @@ def handle_message(event):
 
 	elif (event.message.text == '/lirik' or event.message.text == '/lyrics'):
 		reply_message = TemplateSendMessage(
-			alt_text='List Produk',
+			alt_text='Pilih kata kategori kata kunci untuk memilih lirik yang kamu ingin cari',
 			template=ImageCarouselTemplate(
 			columns=[
 				ImageCarouselColumn(
 					image_url='https://via.placeholder.com/800x800', action=MessageTemplateAction(
-						label='Product 1',
-						text='/buy product1',
+						label='Judul-Artist',
+						text='/judul+artist',
 					)
 				),
 				ImageCarouselColumn(
 				image_url='https://via.placeholder.com/800x800', action=MessageTemplateAction(
-					label='Product 2',
-					text='/buy product2',
+					label='Judul Lagu',
+					text='/judul',
+					)
+				),
+				ImageCarouselColumn(
+				image_url='https://via.placeholder.com/800x800', action=MessageTemplateAction(
+					label='Artist',
+					text='/artist',
+					)
+				),
+				ImageCarouselColumn(
+				image_url='https://via.placeholder.com/800x800', action=MessageTemplateAction(
+					label='Sublyrics',
+					text='/sublyrics',
 					)
 				)
 			]
 		)
 	)
-	elif (event.message.text == '/buy product1'):
-		reply_message = TextSendMessage(text='Product 1 added')
+	elif (event.message.text == '/judul+artist'):
+		reply_message = TextSendMessage(text='Silahkan masukkan judul lagu dan artist yang liriknya ingin kamu cari dengan format: "1-judul-artist"')
+	elif (event.message.text[0] == '1'):
+		reply_message = TextSendMessage(text=lirik_api.getLyricsWithTrackArtist(event.message.text.split("-")[1], event.message.text.split("-")[2]))
 	elif (event.message.text == '/buy product2'):
 		reply_message = TextSendMessage(text='Product 2 added')
 	else:
@@ -128,3 +143,4 @@ def handle_message(event):
 
 if __name__ == "__main__":
 	app.run()
+

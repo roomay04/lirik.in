@@ -84,6 +84,6 @@ def getLyricsWithTrackArtist(track,artist):
 
     data = r.json()
     print(data)
-
+    return data.get('message').get("body").get("lyrics").get("lyrics_body")
 # kalau mau coba
 # getLyricsWithTrackArtist('jatuh hati','raisa')
