@@ -69,6 +69,7 @@ def handle_message(event):
 					text='/help1'
 				),
 				MessageTemplateAction(
+						
 					label='Cari lirik berdasarkan artis',
 					text='/help2'
 				),
