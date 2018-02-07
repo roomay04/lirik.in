@@ -131,7 +131,7 @@ def handle_message(event):
 	elif (event.message.text == '/judul+artist'):
 		reply_message = TextSendMessage(text='Silahkan masukkan judul lagu dan artist yang liriknya ingin kamu cari dengan format: "1-judul-artist"')
 	elif (event.message.text[0] == '1'):
-		reply_message = TextSendMessage(text=lirik_api.getLyricsWithTrackArtist(event.message.text.split("-")[1], event.message.text.split("-")[2]))
+		reply_message = TextSendMessage(text=lirik_api.getTracksWithTrackArtist(event.message.text.split("-")[1], event.message.text.split("-")[2]))
 	elif (event.message.text == '/buy product2'):
 		reply_message = TextSendMessage(text='Product 2 added')
 	else:
