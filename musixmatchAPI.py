@@ -107,6 +107,14 @@ def getLyricsByTrackArtist(track,artist)
 
     events = ElementTree.iterparse(response.raw)
 
+    for event, elem in events:
+        tag = elem.tag
+        value = elem.text
+        if tag == 'Lyric':
+            return value
+
+
+
     return events
 
     # data = r.json()
