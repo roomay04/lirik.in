@@ -1,4 +1,5 @@
 import requests
+from xml.etree import ElementTree
 
 def getAPIkey():
     return 'c29c3abf374df843346ed1bccb20f2ec'
@@ -98,6 +99,24 @@ def getLyricsByTrackArtist(track,artist):
     }
 
     r = requests.get(url = URL, params=PARAMS)
+
+    tree = ElementTree.fromstring(r.content)
+
+    # if the server sent a Gzip or Deflate compressed response, decompress
+    # as we read the raw stream:
+    response.raw.decode_content = True
+
+    events = ElementTree.iterparse(response.raw)
+
+    for event, elem in events:
+        tag = elem.tag
+        value = elem.text
+        if tag == 'Lyric':
+            return value
+
+
+
+    return events
 
     # data = r.json()
     # print(data)
