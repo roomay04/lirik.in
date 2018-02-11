@@ -1,4 +1,5 @@
 import requests
+from xml.etree import ElementTree
 
 def getAPIkey():
     return 'c29c3abf374df843346ed1bccb20f2ec'
@@ -20,7 +21,7 @@ by Hanifa Arrumaisha (25/01/2017)
 *   terakhir, tinggal gunain function ini di index.py yaaa tapi aku belum nyoba
 """
 
-def getLyricsWithSubLyrics(lyrics):
+def getTracksWithSubLyrics(lyrics):
     URL = 'https://api.musixmatch.com/ws/1.1/track.search' 
     PARAMS = {
         'apikey' : getAPIkey(),
@@ -38,7 +39,7 @@ def getLyricsWithSubLyrics(lyrics):
     return data
 
 
-def getLyricsWithTrack(track):
+def getTracksWithTrack(track):
     URL = 'https://api.musixmatch.com/ws/1.1/track.search' 
     PARAMS = {
         'apikey' : getAPIkey(),
@@ -56,7 +57,7 @@ def getLyricsWithTrack(track):
     return data
 
 
-def getLyricsWithArtist(artist):
+def getTracksWithArtist(artist):
     URL = 'https://api.musixmatch.com/ws/1.1/track.search' 
     PARAMS = {
         'apikey': getAPIkey(),
@@ -70,7 +71,7 @@ def getLyricsWithArtist(artist):
     data = r.json()
     return data
 
-def getLyricsWithTrackArtist(track,artist):
+def getTracksWithTrackArtist(track,artist):
     URL = 'https://api.musixmatch.com/ws/1.1/matcher.lyrics.get' 
     PARAMS = {
         'apikey': getAPIkey(),
@@ -85,5 +86,42 @@ def getLyricsWithTrackArtist(track,artist):
     data = r.json()
     print(data)
     return data.get('message').get("body").get("lyrics").get("lyrics_body")
+
+
+### Menggunakan API BARU ####
+
+def getLyricsByTrackArtist(track,artist)
+    URL = 'http://api.chartlyrics.com/apiv1.asmx/SearchLyricDirect' 
+    PARAMS = {
+        'artist':artist,
+        'song':track
+    }
+
+    r = requests.get(url = URL, params=PARAMS)
+
+    tree = ElementTree.fromstring(r.content)
+
+    # if the server sent a Gzip or Deflate compressed response, decompress
+    # as we read the raw stream:
+    response.raw.decode_content = True
+
+    events = ElementTree.iterparse(response.raw)
+
+    for event, elem in events:
+        tag = elem.tag
+        value = elem.text
+        if tag == 'Lyric':
+            return value
+
+
+
+    return events
+
+    # data = r.json()
+    # print(data)
+    # return data.get('message').get("body").get("lyrics").get("lyrics_body")
+
+
+
 # kalau mau coba
 # getLyricsWithTrackArtist('jatuh hati','raisa')
