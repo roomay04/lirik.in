@@ -134,6 +134,48 @@ def handle_message(event):
 		reply_message = TextSendMessage(text=lirik_api.getTracksWithTrackArtist(event.message.text.split("-")[1], event.message.text.split("-")[2]))
 	elif (event.message.text == '/buy product2'):
 		reply_message = TextSendMessage(text='Product 2 added')
+	#nurul ----------------------------------------------------------------------------------------------------------	
+	elif (event.message.text == '/judul'):
+		reply_message = TextSendMessage(text='Silahkan masukkan judul lagu  yang liriknya ingin kamu cari dengan format: "2-judul"')
+	elif (event.message.text[0] == '2'):
+		result = lirik_api.getTracksWithTrack(event.message.text.split("-")[1])
+		reply_message = TemplateSendMessage(
+			alt_text='Pilih judul dengan artis yang sesuai',
+			template=ImageCarouselTemplate(
+			columns=[
+				(ImageCarouselColumn(
+					image_url='https://via.placeholder.com/800x800', action=MessageTemplateAction(
+						label= result[i].get("track").get("track_name") + ' - ' + result[i].get("track").get("artist_name"),
+						text= '1'+ result[i].get("track").get("track_name") + '-' + result[i].get("track").get("artist_name"),
+
+					)
+				))
+				for i in range(10)
+			]
+			
+		)
+	)
+	elif (event.message.text == '/sublyrics'):
+		reply_message = TextSendMessage(text='Silahkan masukkan penggalan lirik lagu  yang liriknya ingin kamu cari dengan format: "3-penggalan lirik"')
+	elif (event.message.text[0] == '3'):
+		result = lirik_api.getTracksWithSubLyrics(event.message.text.split("-")[1])
+		reply_message = TemplateSendMessage(
+			alt_text='Pilih judul dengan artis yang sesuai',
+			template=ImageCarouselTemplate(
+			columns=[
+				ImageCarouselColumn(
+					image_url='https://via.placeholder.com/800x800', action=MessageTemplateAction(
+						label= result[i].get("track").get("track_name") + ' - ' + result[i].get("track").get("artist_name"),
+						text= '1'+ result[i].get("track").get("track_name") + '-' + result[i].get("track").get("artist_name"),
+
+					)
+				)
+				for i in range(10)
+			]
+			
+		)
+	)
+	#--------------------------------------------------------------------------------------------------------------------------------------------------
 	else:
 		reply_message = TextSendMessage(text='Ketik /help untuk bantuan')
 

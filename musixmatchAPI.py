@@ -35,7 +35,7 @@ def getTracksWithSubLyrics(lyrics):
     r = requests.get(url = URL, params=PARAMS)
 
     data = r.json()
-    return data
+    return data.get('message').get("body").get("track_list")
 
 
 def getTracksWithTrack(track):
@@ -53,7 +53,8 @@ def getTracksWithTrack(track):
     r = requests.get(url = URL, params=PARAMS)
 
     data = r.json()
-    return data
+
+    return data.get('message').get("body").get("track_list")
 
 
 def getTracksWithArtist(artist):
@@ -89,7 +90,7 @@ def getTracksWithTrackArtist(track,artist):
 
 ### Menggunakan API BARU ####
 
-def getLyricsByTrackArtist(track,artist)
+def getLyricsByTrackArtist(track,artist):
     URL = 'http://api.chartlyrics.com/apiv1.asmx/SearchLyricDirect' 
     PARAMS = {
         'artist':artist,
