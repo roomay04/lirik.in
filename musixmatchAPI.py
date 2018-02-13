@@ -90,7 +90,7 @@ def getTracksWithTrackArtist(track,artist):
 
 ### Menggunakan API BARU ####
 
-def getLyricsByTrackArtist(track,artist)
+def getLyricsByTrackArtist(track,artist):
     URL = 'http://api.chartlyrics.com/apiv1.asmx/SearchLyricDirect' 
     PARAMS = {
         'artist':artist,
@@ -98,25 +98,30 @@ def getLyricsByTrackArtist(track,artist)
     }
 
     r = requests.get(url = URL, params=PARAMS)
+    
+    parser = ElementTree.XMLParser(encoding="utf-8")
+    content = ElementTree.fromstring(r.content, parser=parser)
 
-    tree = ElementTree.fromstring(r.content)
+    # # if the server sent a Gzip or Deflate compressed response, decompress
+    # # as we read the raw stream:
+    # r.raw.decode_content = True
 
-    # if the server sent a Gzip or Deflate compressed response, decompress
-    # as we read the raw stream:
-    response.raw.decode_content = True
+    # events = ElementTree.iterparse(r.raw)
 
-    events = ElementTree.iterparse(response.raw)
-
-    for event, elem in events:
-        tag = elem.tag
-        value = elem.text
-        if tag == 'Lyric':
-            return value
+    # for event, elem in events:
+    #     tag = elem.tag
+    #     value = elem.text
+    #     if tag == 'Lyric':
+    #         return value
 
 
 
-    return events
+    # return events
 
+    result = content.find("GetLyricResult")
+    lyric = result.find("Lyric")
+
+    return lyric
     # data = r.json()
     # print(data)
     # return data.get('message').get("body").get("lyrics").get("lyrics_body")
@@ -124,4 +129,4 @@ def getLyricsByTrackArtist(track,artist)
 
 
 # kalau mau coba
-# getLyricsWithTrackArtist('jatuh hati','raisa')
+print(getLyricsByTrackArtist('bad','michael jackson'))
