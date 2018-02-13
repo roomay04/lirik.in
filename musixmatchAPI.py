@@ -1,5 +1,6 @@
 import requests
-from xml.etree import ElementTree
+import urllib2
+from bs4 import BeautifulSoup
 
 def getAPIkey():
     return 'c29c3abf374df843346ed1bccb20f2ec'
@@ -36,7 +37,7 @@ def getTracksWithSubLyrics(lyrics):
     r = requests.get(url = URL, params=PARAMS)
 
     data = r.json()
-    return data
+    return data.get('message').get("body").get("track_list")
 
 
 def getTracksWithTrack(track):
@@ -54,7 +55,8 @@ def getTracksWithTrack(track):
     r = requests.get(url = URL, params=PARAMS)
 
     data = r.json()
-    return data
+
+    return data.get('message').get("body").get("track_list")
 
 
 def getTracksWithArtist(artist):
@@ -91,35 +93,37 @@ def getTracksWithTrackArtist(track,artist):
 ### Menggunakan API BARU ####
 
 def getLyricsByTrackArtist(track,artist):
-    URL = 'http://api.chartlyrics.com/apiv1.asmx/SearchLyricDirect' 
-    PARAMS = {
-        'artist':artist,
-        'song':track
-    }
-
-    r = requests.get(url = URL, params=PARAMS)
-    
-    parser = ElementTree.XMLParser(encoding="utf-8")
-    content = ElementTree.fromstring(r.content, parser=parser)
-
-    # # if the server sent a Gzip or Deflate compressed response, decompress
-    # # as we read the raw stream:
-    # r.raw.decode_content = True
-
-    # events = ElementTree.iterparse(r.raw)
-
-    # for event, elem in events:
-    #     tag = elem.tag
-    #     value = elem.text
-    #     if tag == 'Lyric':
-    #         return value
+    URL = 'https://www.azlyrics.com/lyrics/' + artist + "/" + track
+    html = urllib2.urlopen(URL)
+    soup = BeautifulSoup(html)
+    elem = soup.find_all('div')
+    return elem[21].text
 
 
 
-    # return events
 
-    result = content.find("GetLyricResult")
-    lyric = result.find("Lyric")
+# def getLyricsByTrackArtist(track,artist):
+#     URL = 'http://api.chartlyrics.com/apiv1.asmx/SearchLyricDirect' 
+#     PARAMS = {
+#         'artist':artist,
+#         'song':track
+#     }
+
+#     r = requests.get(url = URL, params=PARAMS)
+
+#     tree = ElementTree.fromstring(r.content)
+
+#     # if the server sent a Gzip or Deflate compressed response, decompress
+#     # as we read the raw stream:
+#     response.raw.decode_content = True
+
+#     events = ElementTree.iterparse(response.raw)
+
+#     for event, elem in events:
+#         tag = elem.tag
+#         value = elem.text
+#         if tag == 'Lyric':
+#             return value
 
     return lyric
     # data = r.json()
