@@ -1,6 +1,6 @@
 import requests
 import urllib2
-from BeautifulSoup import BeautifulSoup
+from bs4 import BeautifulSoup
 
 def getAPIkey():
     return 'c29c3abf374df843346ed1bccb20f2ec'
@@ -95,9 +95,9 @@ def getTracksWithTrackArtist(track,artist):
 def getLyricsByTrackArtist(track,artist):
     URL = 'https://www.azlyrics.com/lyrics/' + artist + "/" + track
     html = urllib2.urlopen(URL)
-    soup = BS(html)
-    elem = soup.findAll('b')
-    return elem
+    soup = BeautifulSoup(html)
+    elem = soup.findAll('div')
+    return elem[21].text
 
 
 
