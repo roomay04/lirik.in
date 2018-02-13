@@ -92,8 +92,9 @@ def getTracksWithTrackArtist(track,artist):
 
 ### Menggunakan API BARU ####
 
-def getLyricsByTrackArtist(track,artist):
-    URL = 'https://www.azlyrics.com/lyrics/' + artist + "/" + track
+def getLyricsByTrackArtist(artist, track):
+    track_clean = track.replace(" ", "")
+    URL = 'https://www.azlyrics.com/lyrics/' + artist + "/" + track_clean + ".html"
     http = urllib3.PoolManager()
     response = http.request('GET', URL)
     soup = BeautifulSoup(response.data)
