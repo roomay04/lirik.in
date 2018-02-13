@@ -50,8 +50,11 @@ def callback():
 
     return 'OK'
 
-@handler.add(MessageEvent, message=TextMessage)
+@app.route('/hello', methods=['GET'])
+def hello():
+	return "Hello World"
 
+@handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
 	if (event.message.text == '/help'):
 		reply_message = TemplateSendMessage(
