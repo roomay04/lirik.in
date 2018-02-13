@@ -101,7 +101,7 @@ def getLyricsByTrackArtist(track,artist):
     return elem[21].text
 
 
-
+#yang lama
 
 # def getLyricsByTrackArtist(track,artist):
 #     URL = 'http://api.chartlyrics.com/apiv1.asmx/SearchLyricDirect' 
