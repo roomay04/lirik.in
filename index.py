@@ -63,30 +63,29 @@ def handle_message(event):
 				title='Helper',
 				text='',
 				actions=[
-				MessageTemplateAction(
-					label='Cari lirik lagu',
-					text='/help0'
-				),
-				MessageTemplateAction(
-					label='Cari lirik berdasarkan judul',
-					text='/help1'
-				),
-				MessageTemplateAction(
-						
-					label='Cari lirik berdasarkan artis',
-					text='/help2'
-				),
-				MessageTemplateAction(
-					label='Cari lirik berdasarkan penggalan lirik',
-					text='/help3'
-				),
-				URITemplateAction(
-					label='Go to website',
-					uri='http://example.com/'
-				)
-			]
+					MessageTemplateAction(
+						label='Cari lirik lagu',
+						text='/help0'
+					),
+					MessageTemplateAction(
+						label='Cari lirik berdasarkan judul',
+						text='/help1'
+					),
+					MessageTemplateAction(
+						label='Cari lirik berdasarkan artis',
+						text='/help2'
+					),
+					MessageTemplateAction(
+						label='Cari lirik berdasarkan penggalan lirik',
+						text='/help3'
+					),
+					URITemplateAction(
+						label='Go to website',
+						uri='http://example.com/'
+					)
+				]
+			)
 		)
-	)
 	elif (event.message.text == '/help0'):
 		reply_message = TextSendMessage(text='Ketik /lirik (judul lagu atau artis berkaitan)')
 	elif (event.message.text == '/help1'):
@@ -131,22 +130,19 @@ def handle_message(event):
 			]
 		)
 	)
-	elif (event.message.text == '/judul+artist'):
-		reply_message = TextSendMessage(text='Silahkan masukkan judul lagu dan artist yang liriknya ingin kamu cari dengan format: "1-judul-artist"')
+	elif (event.message.text == '/artist+judul'):
+		reply_message = TextSendMessage(text='Silahkan masukkan judul lagu dan artist yang liriknya ingin kamu cari dengan format: "1-artis-judul"')
 	elif (event.message.text[0] == '1'):
 		reply_message = TextSendMessage(text=lirik_api.getLyricsByTrackArtist(event.message.text.split("-")[1], event.message.text.split("-")[2]))
+	
 
-	elif (event.message.text[0] == '2'):
-		reply_message = TextSendMessage(text=lirik_api.getLyricsByTrackArtist(event.message.text.split("-")[1], event.message.text.split("-")[2]))
-		
-
-	elif (event.message.text == '/buy product2'):
-		reply_message = TextSendMessage(text='Product 2 added')
 	#nurul ----------------------------------------------------------------------------------------------------------	
 	elif (event.message.text == '/judul'):
 		reply_message = TextSendMessage(text='Silahkan masukkan judul lagu  yang liriknya ingin kamu cari dengan format: "2-judul"')
 	elif (event.message.text[0] == '2'):
 		result = lirik_api.getTracksWithTrack(event.message.text.split("-")[1])
+
+		
 		reply_message = TemplateSendMessage(
 			alt_text='Pilih judul dengan artis yang sesuai',
 			template=ImageCarouselTemplate(
