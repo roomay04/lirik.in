@@ -92,9 +92,8 @@ def getTracksWithTrackArtist(track,artist):
 
 ### Menggunakan API BARU ####
 
-def getLyricsByTrackArtist(artist, track):
-    track_clean = track.replace(" ","")
-    URL = 'https://www.azlyrics.com/lyrics/' + artist + "/" + track_clean+".html"
+def getLyricsByTrackArtist(artist,track):
+    URL = 'https://www.azlyrics.com/lyrics/' + artist + '/' + track+ '.html'
     http = urllib3.PoolManager()
     response = http.request('GET', URL)
     soup = BeautifulSoup(response.data)
@@ -102,7 +101,7 @@ def getLyricsByTrackArtist(artist, track):
     return elem[21].text
 
 
-#yang lama
+#yang baru
 
 # def getLyricsByTrackArtist(track,artist):
 #     URL = 'http://api.chartlyrics.com/apiv1.asmx/SearchLyricDirect' 
@@ -135,4 +134,3 @@ def getLyricsByTrackArtist(artist, track):
 
 
 # kalau mau coba
-print(getLyricsByTrackArtist('bad','michael jackson'))
