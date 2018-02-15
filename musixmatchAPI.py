@@ -135,4 +135,3 @@ def getLyricsByTrackArtist(track,artist):
 
 
 # kalau mau coba
-print(getLyricsByTrackArtist('bad','michael jackson'))
