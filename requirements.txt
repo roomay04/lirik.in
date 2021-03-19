@@ -6,7 +6,7 @@ Flask==0.12.2
 future==0.16.0
 idna==2.6
 itsdangerous==0.24
-Jinja2==2.10
+Jinja2==2.11.3
 -e git+https://github.com/mgilangjanuar/line-bot-sdk-python.git@master#egg=line_bot_sdk
 MarkupSafe==1.0
 prompt-toolkit==1.0.15
